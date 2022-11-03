@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>plotly</title>
+
+<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/journal.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<script src="site_libs/plotly-binding-4.10.0/plotly.js"></script>
+<script src="site_libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="site_libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="site_libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+<link href="site_libs/plotly-htmlwidgets-css-2.5.1/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="site_libs/plotly-main-2.5.1/plotly-latest.min.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Home</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="about.html">About</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Examples
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="plotly.html">Plotly</a>
+    </li>
+    <li>
+      <a href="dashboard.html">Dashboard</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="mailto:&lt;yj2688@cumc.columbia.edu&gt;">
+    <span class="fa fa-envelope fa-lg"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="https://github.com/yunyij6">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">plotly</h1>
+
+</div>
+
+
+<pre class="r"><code>library(tidyverse)
+library(plotly)
+library(p8105.datasets)</code></pre>
+<pre class="r"><code>data(&quot;instacart&quot;)
+
+instacart %&gt;% 
+  janitor::clean_names() %&gt;% 
+  drop_na()</code></pre>
+<pre><code>## # A tibble: 1,384,617 × 15
+##    order_id product_id add_to_…¹ reord…² user_id eval_…³ order…⁴ order…⁵ order…⁶
+##       &lt;int&gt;      &lt;int&gt;     &lt;int&gt;   &lt;int&gt;   &lt;int&gt; &lt;chr&gt;     &lt;int&gt;   &lt;int&gt;   &lt;int&gt;
+##  1        1      49302         1       1  112108 train         4       4      10
+##  2        1      11109         2       1  112108 train         4       4      10
+##  3        1      10246         3       0  112108 train         4       4      10
+##  4        1      49683         4       0  112108 train         4       4      10
+##  5        1      43633         5       1  112108 train         4       4      10
+##  6        1      13176         6       0  112108 train         4       4      10
+##  7        1      47209         7       0  112108 train         4       4      10
+##  8        1      22035         8       1  112108 train         4       4      10
+##  9       36      39612         1       0   79431 train        23       6      18
+## 10       36      19660         2       1   79431 train        23       6      18
+## # … with 1,384,607 more rows, 6 more variables: days_since_prior_order &lt;int&gt;,
+## #   product_name &lt;chr&gt;, aisle_id &lt;int&gt;, department_id &lt;int&gt;, aisle &lt;chr&gt;,
+## #   department &lt;chr&gt;, and abbreviated variable names ¹​add_to_cart_order,
+## #   ²​reordered, ³​eval_set, ⁴​order_number, ⁵​order_dow, ⁶​order_hour_of_day</code></pre>
+<pre class="r"><code>instacart %&gt;% 
+  filter(order_dow == &quot;5&quot;) %&gt;% 
+  select(order_dow,department,product_id) %&gt;% 
+  group_by(order_dow, department) %&gt;%
+  summarise(number_of_items_ordered = n()) %&gt;%
+  plot_ly(x = ~department, y = ~number_of_items_ordered, color = ~department, type = &quot;scatter&quot;) %&gt;%
+  layout(title = &#39;Number of Items Ordered on Friday&#39;)</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;order_dow&#39;. You can override using the
+## `.groups` argument.
+## No scatter mode specifed: Setting the mode to markers Read more about this
+## attribute -&gt; https://plotly.com/r/reference/#scatter-mode</code></pre>
+<pre><code>## Warning in RColorBrewer::brewer.pal(N, &quot;Set2&quot;): n too large, allowed maximum for palette Set2 is 8
+## Returning the palette you asked for with that many colors
+
+## Warning in RColorBrewer::brewer.pal(N, &quot;Set2&quot;): n too large, allowed maximum for palette Set2 is 8
+## Returning the palette you asked for with that many colors</code></pre>
+<div id="htmlwidget-0b8ed6a3c1f634345cac" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-0b8ed6a3c1f634345cac">{"x":{"visdat":{"36e378420deb":["function () ","plotlyVisDat"]},"cur_data":"36e378420deb","attrs":{"36e378420deb":{"x":{},"y":{},"color":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Number of Items Ordered on Friday","xaxis":{"domain":[0,1],"automargin":true,"title":"department","type":"category","categoryorder":"array","categoryarray":["alcohol","babies","bakery","beverages","breakfast","bulk","canned goods","dairy eggs","deli","dry goods pasta","frozen","household","international","meat seafood","missing","other","pantry","personal care","pets","produce","snacks"]},"yaxis":{"domain":[0,1],"automargin":true,"title":"number_of_items_ordered"},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":["alcohol"],"y":[1036],"type":"scatter","mode":"markers","name":"alcohol","marker":{"color":"rgba(102,194,165,1)","line":{"color":"rgba(102,194,165,1)"}},"textfont":{"color":"rgba(102,194,165,1)"},"error_y":{"color":"rgba(102,194,165,1)"},"error_x":{"color":"rgba(102,194,165,1)"},"line":{"color":"rgba(102,194,165,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["babies"],"y":[1956],"type":"scatter","mode":"markers","name":"babies","marker":{"color":"rgba(172,179,141,1)","line":{"color":"rgba(172,179,141,1)"}},"textfont":{"color":"rgba(172,179,141,1)"},"error_y":{"color":"rgba(172,179,141,1)"},"error_x":{"color":"rgba(172,179,141,1)"},"line":{"color":"rgba(172,179,141,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["bakery"],"y":[6323],"type":"scatter","mode":"markers","name":"bakery","marker":{"color":"rgba(219,161,118,1)","line":{"color":"rgba(219,161,118,1)"}},"textfont":{"color":"rgba(219,161,118,1)"},"error_y":{"color":"rgba(219,161,118,1)"},"error_x":{"color":"rgba(219,161,118,1)"},"line":{"color":"rgba(219,161,118,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["beverages"],"y":[15939],"type":"scatter","mode":"markers","name":"beverages","marker":{"color":"rgba(248,142,103,1)","line":{"color":"rgba(248,142,103,1)"}},"textfont":{"color":"rgba(248,142,103,1)"},"error_y":{"color":"rgba(248,142,103,1)"},"error_x":{"color":"rgba(248,142,103,1)"},"line":{"color":"rgba(248,142,103,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["breakfast"],"y":[3847],"type":"scatter","mode":"markers","name":"breakfast","marker":{"color":"rgba(217,150,141,1)","line":{"color":"rgba(217,150,141,1)"}},"textfont":{"color":"rgba(217,150,141,1)"},"error_y":{"color":"rgba(217,150,141,1)"},"error_x":{"color":"rgba(217,150,141,1)"},"line":{"color":"rgba(217,150,141,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["bulk"],"y":[181],"type":"scatter","mode":"markers","name":"bulk","marker":{"color":"rgba(178,156,177,1)","line":{"color":"rgba(178,156,177,1)"}},"textfont":{"color":"rgba(178,156,177,1)"},"error_y":{"color":"rgba(178,156,177,1)"},"error_x":{"color":"rgba(178,156,177,1)"},"line":{"color":"rgba(178,156,177,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["canned goods"],"y":[5569],"type":"scatter","mode":"markers","name":"canned goods","marker":{"color":"rgba(152,158,202,1)","line":{"color":"rgba(152,158,202,1)"}},"textfont":{"color":"rgba(152,158,202,1)"},"error_y":{"color":"rgba(152,158,202,1)"},"error_x":{"color":"rgba(152,158,202,1)"},"line":{"color":"rgba(152,158,202,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["dairy eggs"],"y":[28088],"type":"scatter","mode":"markers","name":"dairy eggs","marker":{"color":"rgba(185,152,199,1)","line":{"color":"rgba(185,152,199,1)"}},"textfont":{"color":"rgba(185,152,199,1)"},"error_y":{"color":"rgba(185,152,199,1)"},"error_x":{"color":"rgba(185,152,199,1)"},"line":{"color":"rgba(185,152,199,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["deli"],"y":[5625],"type":"scatter","mode":"markers","name":"deli","marker":{"color":"rgba(215,144,197,1)","line":{"color":"rgba(215,144,197,1)"}},"textfont":{"color":"rgba(215,144,197,1)"},"error_y":{"color":"rgba(215,144,197,1)"},"error_x":{"color":"rgba(215,144,197,1)"},"line":{"color":"rgba(215,144,197,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["dry goods pasta"],"y":[4629],"type":"scatter","mode":"markers","name":"dry goods pasta","marker":{"color":"rgba(224,152,180,1)","line":{"color":"rgba(224,152,180,1)"}},"textfont":{"color":"rgba(224,152,180,1)"},"error_y":{"color":"rgba(224,152,180,1)"},"error_x":{"color":"rgba(224,152,180,1)"},"line":{"color":"rgba(224,152,180,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["frozen"],"y":[12782],"type":"scatter","mode":"markers","name":"frozen","marker":{"color":"rgba(205,180,144,1)","line":{"color":"rgba(205,180,144,1)"}},"textfont":{"color":"rgba(205,180,144,1)"},"error_y":{"color":"rgba(205,180,144,1)"},"error_x":{"color":"rgba(205,180,144,1)"},"line":{"color":"rgba(205,180,144,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["household"],"y":[4888],"type":"scatter","mode":"markers","name":"household","marker":{"color":"rgba(180,206,104,1)","line":{"color":"rgba(180,206,104,1)"}},"textfont":{"color":"rgba(180,206,104,1)"},"error_y":{"color":"rgba(180,206,104,1)"},"error_x":{"color":"rgba(180,206,104,1)"},"line":{"color":"rgba(180,206,104,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["international"],"y":[1399],"type":"scatter","mode":"markers","name":"international","marker":{"color":"rgba(186,217,78,1)","line":{"color":"rgba(186,217,78,1)"}},"textfont":{"color":"rgba(186,217,78,1)"},"error_y":{"color":"rgba(186,217,78,1)"},"error_x":{"color":"rgba(186,217,78,1)"},"line":{"color":"rgba(186,217,78,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["meat seafood"],"y":[3696],"type":"scatter","mode":"markers","name":"meat seafood","marker":{"color":"rgba(217,217,66,1)","line":{"color":"rgba(217,217,66,1)"}},"textfont":{"color":"rgba(217,217,66,1)"},"error_y":{"color":"rgba(217,217,66,1)"},"error_x":{"color":"rgba(217,217,66,1)"},"line":{"color":"rgba(217,217,66,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["missing"],"y":[1097],"type":"scatter","mode":"markers","name":"missing","marker":{"color":"rgba(247,217,52,1)","line":{"color":"rgba(247,217,52,1)"}},"textfont":{"color":"rgba(247,217,52,1)"},"error_y":{"color":"rgba(247,217,52,1)"},"error_x":{"color":"rgba(247,217,52,1)"},"line":{"color":"rgba(247,217,52,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["other"],"y":[240],"type":"scatter","mode":"markers","name":"other","marker":{"color":"rgba(250,212,80,1)","line":{"color":"rgba(250,212,80,1)"}},"textfont":{"color":"rgba(250,212,80,1)"},"error_y":{"color":"rgba(250,212,80,1)"},"error_x":{"color":"rgba(250,212,80,1)"},"line":{"color":"rgba(250,212,80,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["pantry"],"y":[10653],"type":"scatter","mode":"markers","name":"pantry","marker":{"color":"rgba(241,204,114,1)","line":{"color":"rgba(241,204,114,1)"}},"textfont":{"color":"rgba(241,204,114,1)"},"error_y":{"color":"rgba(241,204,114,1)"},"error_x":{"color":"rgba(241,204,114,1)"},"line":{"color":"rgba(241,204,114,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["personal care"],"y":[2785],"type":"scatter","mode":"markers","name":"personal care","marker":{"color":"rgba(231,197,144,1)","line":{"color":"rgba(231,197,144,1)"}},"textfont":{"color":"rgba(231,197,144,1)"},"error_y":{"color":"rgba(231,197,144,1)"},"error_x":{"color":"rgba(231,197,144,1)"},"line":{"color":"rgba(231,197,144,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["pets"],"y":[668],"type":"scatter","mode":"markers","name":"pets","marker":{"color":"rgba(215,191,158,1)","line":{"color":"rgba(215,191,158,1)"}},"textfont":{"color":"rgba(215,191,158,1)"},"error_y":{"color":"rgba(215,191,158,1)"},"error_x":{"color":"rgba(215,191,158,1)"},"line":{"color":"rgba(215,191,158,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["produce"],"y":[49636],"type":"scatter","mode":"markers","name":"produce","marker":{"color":"rgba(198,185,168,1)","line":{"color":"rgba(198,185,168,1)"}},"textfont":{"color":"rgba(198,185,168,1)"},"error_y":{"color":"rgba(198,185,168,1)"},"error_x":{"color":"rgba(198,185,168,1)"},"line":{"color":"rgba(198,185,168,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["snacks"],"y":[15873],"type":"scatter","mode":"markers","name":"snacks","marker":{"color":"rgba(179,179,179,1)","line":{"color":"rgba(179,179,179,1)"}},"textfont":{"color":"rgba(179,179,179,1)"},"error_y":{"color":"rgba(179,179,179,1)"},"error_x":{"color":"rgba(179,179,179,1)"},"line":{"color":"rgba(179,179,179,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<pre class="r"><code>instacart %&gt;% 
+  filter(department == &quot;frozen&quot; | department == &quot;deli&quot;) %&gt;% 
+  select(department, product_id, reordered) %&gt;% 
+  group_by(department, reordered) %&gt;%
+  summarise(times_ordered = n()) %&gt;%
+  plot_ly(x = ~department, y = ~times_ordered, color = ~department, type = &quot;box&quot;) %&gt;%
+  layout(title = &#39;Number of Times Products Ordered from Frozen Department and Deli Department&#39;)</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;department&#39;. You can override using the
+## `.groups` argument.</code></pre>
+<pre><code>## Warning in RColorBrewer::brewer.pal(N, &quot;Set2&quot;): minimal value for n is 3, returning requested palette with 3 different levels
+
+## Warning in RColorBrewer::brewer.pal(N, &quot;Set2&quot;): minimal value for n is 3, returning requested palette with 3 different levels</code></pre>
+<div id="htmlwidget-9e17e9cf2d5d6a3b9937" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-9e17e9cf2d5d6a3b9937">{"x":{"visdat":{"36e3f99dfc8":["function () ","plotlyVisDat"]},"cur_data":"36e3f99dfc8","attrs":{"36e3f99dfc8":{"x":{},"y":{},"color":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"box"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Number of Times Products Ordered from Frozen Department and Deli Department","xaxis":{"domain":[0,1],"automargin":true,"title":"department","type":"category","categoryorder":"array","categoryarray":["deli","frozen"]},"yaxis":{"domain":[0,1],"automargin":true,"title":"times_ordered"},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"fillcolor":"rgba(102,194,165,0.5)","x":["deli","deli"],"y":[16924,27367],"type":"box","name":"deli","marker":{"color":"rgba(102,194,165,1)","line":{"color":"rgba(102,194,165,1)"}},"line":{"color":"rgba(102,194,165,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(141,160,203,0.5)","x":["frozen","frozen"],"y":[44258,56168],"type":"box","name":"frozen","marker":{"color":"rgba(141,160,203,1)","line":{"color":"rgba(141,160,203,1)"}},"line":{"color":"rgba(141,160,203,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<pre class="r"><code>instacart %&gt;%
+  filter(aisle == &quot;yogurt&quot;) %&gt;% 
+  select(aisle, order_dow, product_id) %&gt;% 
+  group_by(aisle, order_dow) %&gt;%
+  summarise(number_ordered = n()) %&gt;%
+  plot_ly(x = ~order_dow, y = ~number_ordered, color = ~order_dow, type = &quot;bar&quot;) %&gt;%
+  layout(title = &#39;Number of Yogurt Ordered in Each Day in a Week&#39;)</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;aisle&#39;. You can override using the
+## `.groups` argument.</code></pre>
+<pre><code>## Warning: textfont.color doesn&#39;t (yet) support data arrays
+
+## Warning: textfont.color doesn&#39;t (yet) support data arrays</code></pre>
+<div id="htmlwidget-179327e0c6e43cba25ab" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-179327e0c6e43cba25ab">{"x":{"visdat":{"36e31fcc53b2":["function () ","plotlyVisDat"]},"cur_data":"36e31fcc53b2","attrs":{"36e31fcc53b2":{"x":{},"y":{},"color":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"bar"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Number of Yogurt Ordered in Each Day in a Week","xaxis":{"domain":[0,1],"automargin":true,"title":"order_dow"},"yaxis":{"domain":[0,1],"automargin":true,"title":"number_ordered"},"hovermode":"closest","showlegend":false,"legend":{"yanchor":"top","y":0.5}},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":[0,1,2,3,4,5,6],"y":[13398,8684,6416,6080,6061,6958,7643],"type":"bar","marker":{"colorbar":{"title":"order_dow","ticklen":2},"cmin":0,"cmax":6,"colorscale":[["0","rgba(68,1,84,1)"],["0.0416666666666667","rgba(70,19,97,1)"],["0.0833333333333333","rgba(72,32,111,1)"],["0.125","rgba(71,45,122,1)"],["0.166666666666667","rgba(68,58,128,1)"],["0.208333333333333","rgba(64,70,135,1)"],["0.25","rgba(60,82,138,1)"],["0.291666666666667","rgba(56,93,140,1)"],["0.333333333333333","rgba(49,104,142,1)"],["0.375","rgba(46,114,142,1)"],["0.416666666666667","rgba(42,123,142,1)"],["0.458333333333333","rgba(38,133,141,1)"],["0.5","rgba(37,144,140,1)"],["0.541666666666667","rgba(33,154,138,1)"],["0.583333333333333","rgba(39,164,133,1)"],["0.625","rgba(47,174,127,1)"],["0.666666666666667","rgba(53,183,121,1)"],["0.708333333333333","rgba(79,191,110,1)"],["0.75","rgba(98,199,98,1)"],["0.791666666666667","rgba(119,207,85,1)"],["0.833333333333333","rgba(147,214,70,1)"],["0.875","rgba(172,220,52,1)"],["0.916666666666667","rgba(199,225,42,1)"],["0.958333333333333","rgba(226,228,40,1)"],["1","rgba(253,231,37,1)"]],"showscale":false,"color":[0,1,2,3,4,5,6],"line":{"colorbar":{"title":"","ticklen":2},"cmin":0,"cmax":6,"colorscale":[["0","rgba(68,1,84,1)"],["0.0416666666666667","rgba(70,19,97,1)"],["0.0833333333333333","rgba(72,32,111,1)"],["0.125","rgba(71,45,122,1)"],["0.166666666666667","rgba(68,58,128,1)"],["0.208333333333333","rgba(64,70,135,1)"],["0.25","rgba(60,82,138,1)"],["0.291666666666667","rgba(56,93,140,1)"],["0.333333333333333","rgba(49,104,142,1)"],["0.375","rgba(46,114,142,1)"],["0.416666666666667","rgba(42,123,142,1)"],["0.458333333333333","rgba(38,133,141,1)"],["0.5","rgba(37,144,140,1)"],["0.541666666666667","rgba(33,154,138,1)"],["0.583333333333333","rgba(39,164,133,1)"],["0.625","rgba(47,174,127,1)"],["0.666666666666667","rgba(53,183,121,1)"],["0.708333333333333","rgba(79,191,110,1)"],["0.75","rgba(98,199,98,1)"],["0.791666666666667","rgba(119,207,85,1)"],["0.833333333333333","rgba(147,214,70,1)"],["0.875","rgba(172,220,52,1)"],["0.916666666666667","rgba(199,225,42,1)"],["0.958333333333333","rgba(226,228,40,1)"],["1","rgba(253,231,37,1)"]],"showscale":false,"color":[0,1,2,3,4,5,6]}},"xaxis":"x","yaxis":"y","frame":null},{"x":[0,6],"y":[6061,13398],"type":"scatter","mode":"markers","opacity":0,"hoverinfo":"none","showlegend":false,"marker":{"colorbar":{"title":"order_dow","ticklen":2,"len":0.5,"lenmode":"fraction","y":1,"yanchor":"top"},"cmin":0,"cmax":6,"colorscale":[["0","rgba(68,1,84,1)"],["0.0416666666666667","rgba(70,19,97,1)"],["0.0833333333333333","rgba(72,32,111,1)"],["0.125","rgba(71,45,122,1)"],["0.166666666666667","rgba(68,58,128,1)"],["0.208333333333333","rgba(64,70,135,1)"],["0.25","rgba(60,82,138,1)"],["0.291666666666667","rgba(56,93,140,1)"],["0.333333333333333","rgba(49,104,142,1)"],["0.375","rgba(46,114,142,1)"],["0.416666666666667","rgba(42,123,142,1)"],["0.458333333333333","rgba(38,133,141,1)"],["0.5","rgba(37,144,140,1)"],["0.541666666666667","rgba(33,154,138,1)"],["0.583333333333333","rgba(39,164,133,1)"],["0.625","rgba(47,174,127,1)"],["0.666666666666667","rgba(53,183,121,1)"],["0.708333333333333","rgba(79,191,110,1)"],["0.75","rgba(98,199,98,1)"],["0.791666666666667","rgba(119,207,85,1)"],["0.833333333333333","rgba(147,214,70,1)"],["0.875","rgba(172,220,52,1)"],["0.916666666666667","rgba(199,225,42,1)"],["0.958333333333333","rgba(226,228,40,1)"],["1","rgba(253,231,37,1)"]],"showscale":true,"color":[0,6],"line":{"color":"rgba(255,127,14,1)"}},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

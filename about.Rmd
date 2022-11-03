@@ -1,0 +1,11 @@
+---
+title: "Know more about me"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    theme: journal
+---
+### Introduction
+
+Hi, my name is Yunyi Jiang. I'm a master student in Biostatistics. Here is [my resume](https://docs.google.com/document/d/1zERfpWEgUUxDVHjrrSnZD6VVPPhtJYFM/edit?usp=share_link&ouid=107960638790633027211&rtpof=true&sd=true)

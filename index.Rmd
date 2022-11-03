@@ -1,0 +1,17 @@
+---
+title: "Introducing myself"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    theme: cerulean
+---
+
+# This is Yunyi Jiang's website
+
+Welcome to my website. You can learn more [about me](about.html) here.
+
+Here are some links:
+my GitHub account: [GitHub](https://github.com/yunyij6)
+my email address: (yj2688@cumc.columbia.edu)
+
